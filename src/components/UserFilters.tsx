@@ -2,6 +2,7 @@
 
 import { Space, Switch, Input, Button, Typography } from "antd"
 import { ReloadOutlined } from "@ant-design/icons"
+import { JSX } from "react"
 
 const { Text } = Typography
 
@@ -25,7 +26,7 @@ export function UserFilters({
   onToggleSort,
   onSearchChange,
   onRestore
-}: Props) {
+}: Props): JSX.Element {
   return (
     <Space
       size={[16, 16]}

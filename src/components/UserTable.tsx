@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, JSX } from "react"
 import { Table, Alert, message, Row, Col, Card, Typography } from "antd"
 import type { TablePaginationConfig } from "antd"
 import { User } from "@/types/slices/randomType"
@@ -11,7 +11,7 @@ import { TableActions } from "./TableActions"
 
 const { Title } = Typography
 
-export function UserTable() {
+export function UserTable(): JSX.Element {
     const [users, setUsers] = useState<User[]>([])
     const [originalUsers, setOriginalUsers] = useState<User[]>([])
     const [deletedUsers, setDeletedUsers] = useState<User[]>([])
@@ -26,11 +26,12 @@ export function UserTable() {
     const debouncedSearch = useDebounce(searchTerm, 500)
 
     useEffect(() => {
-        void getUsers(perPage)
+        getUsers(perPage)
     }, [perPage])
 
     useEffect(() => {
         const term = debouncedSearch.trim().toLowerCase()
+
         if (!term) {
             setUsers(sortByCountry ? sortUsersByCountry(originalUsers) : originalUsers)
             return
@@ -48,8 +49,10 @@ export function UserTable() {
         try {
             setLoading(true)
             setError(null)
+            
             const resp = await UserAPI.get(results)
             const data = resp?.results || []
+
             setUsers(sortByCountry ? sortUsersByCountry(data) : data)
             setOriginalUsers(data)
             setDeletedUsers([])
