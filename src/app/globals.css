@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.zebra-row > td {
+  background-color: #e6f4ff !important;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.zebra-row:hover > td {
+  background-color: #bae0ff !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .zebra-row > td {
+    background-color: #2b3a4a !important;
+  }
+  .zebra-row:hover > td {
+    background-color: #35506a !important;
+  }
+}
