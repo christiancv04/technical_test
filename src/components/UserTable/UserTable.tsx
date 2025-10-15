@@ -7,8 +7,10 @@ import type { TablePaginationConfig } from "antd"
 import { User } from "@/types/slices/randomType"
 import { UserAPI } from "@/api/UserAPI"
 import { useDebounce } from "@/hooks/useDebounce"
-import { UserFilters } from "./UserFilters"
-import { TableActions } from "./TableActions"
+import { UserFilters } from "../UserFilters/UserFilters"
+import { TableActions } from "../TableAction/TableActions"
+
+import './styles/UserTable.css'
 
 const { Title } = Typography
 
@@ -105,8 +107,14 @@ export function UserTable(): JSX.Element {
             render: (name: User["name"]) => `${name.first} ${name.last}`,
             sorter: (a: User, b: User) => a.name.first.localeCompare(b.name.first)
         },
-        { title: "Email", dataIndex: "email", key: "email" },
-        { title: "Género", dataIndex: "gender", key: "gender" },
+        {
+            title: "Email", dataIndex: "email", key: "email",
+            sorter: (a: User, b: User) => a.email.localeCompare(b.email)
+        },
+        {
+            title: "Género", dataIndex: "gender", key: "gender",
+            sorter: (a: User, b: User) => a.gender.localeCompare(b.gender)
+        },
         {
             title: "País",
             dataIndex: "location",
@@ -177,7 +185,8 @@ export function UserTable(): JSX.Element {
                             current: currentPage,
                             pageSize: perPage,
                             total: users.length,
-                            showTotal: (t) => `Mostrando ${t} usuarios`
+                            showTotal: (t) => `Mostrando ${t} usuarios`,
+                            pageSizeOptions: ['100'],
                         }}
                         loading={loading}
                         onChange={handleTableChange}
@@ -186,6 +195,7 @@ export function UserTable(): JSX.Element {
                                 ? "bg-gray-100 hover:bg-gray-200 transition-colors"
                                 : "hover:bg-gray-100 transition-colors"
                         }
+                        className="custom-table"
                     />
                 </Col>
             </Row>

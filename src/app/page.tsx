@@ -1,6 +1,6 @@
 "use client"
 
-import { UserTable } from "@/components/UserTable"
+import { UserTable } from "@/components/UserTable/UserTable"
 import { Row, Col } from "antd"
 import { JSX } from "react"
 

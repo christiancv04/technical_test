@@ -37,12 +37,24 @@ export function UserFilters({
     >
       <Space align="center">
         <Text className="text-gray-700 font-medium">Filas alternadas:</Text>
-        <Switch checked={stripedRows} onChange={onToggleStriped} />
+        <Switch
+          checked={stripedRows}
+          onChange={onToggleStriped}
+          style={{
+            backgroundColor: stripedRows ? '#516E80' : undefined,
+          }}
+        />
       </Space>
 
       <Space align="center">
         <Text className="text-gray-700 font-medium">Ordenar por país:</Text>
-        <Switch checked={sortByCountry} onChange={onToggleSort} />
+        <Switch
+          checked={sortByCountry}
+          onChange={onToggleSort}
+          style={{
+            backgroundColor: sortByCountry ? '#516E80' : undefined,
+          }}
+        />
       </Space>
 
       <Input
@@ -57,7 +69,10 @@ export function UserFilters({
         onClick={onRestore}
         icon={<ReloadOutlined />}
         disabled={deletedUsers.length === 0}
-        className="!bg-[#516E80] !text-white hover:!bg-[#5b7f94]"
+        className={`!text-white ${deletedUsers.length === 0
+          ? '!bg-gray-400 !border-gray-400 !cursor-not-allowed'
+          : '!bg-[#516E80] !border-[#516E80] hover:!bg-[#5b7f94] hover:!border-[#5b7f94]'
+          }`}
       >
         Restaurar usuarios
       </Button>

@@ -1,0 +1,14 @@
+.custom-table .ant-table-thead > tr > th {
+  background-color: #516e80 !important;
+  color: white !important;
+  font-weight: 500;
+}
+
+.custom-table .ant-table-column-sorters {
+  color: white !important;
+}
+
+.custom-table .ant-table-column-sorter-up.active,
+.custom-table .ant-table-column-sorter-down.active {
+  color: #fff !important;
+}
