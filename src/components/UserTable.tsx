@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, JSX } from "react"
+import Image from "next/image"
 import { Table, Alert, message, Row, Col, Card, Typography } from "antd"
 import type { TablePaginationConfig } from "antd"
 import { User } from "@/types/slices/randomType"
@@ -23,7 +24,7 @@ export function UserTable(): JSX.Element {
     const [sortByCountry, setSortByCountry] = useState<boolean>(false)
     const [searchTerm, setSearchTerm] = useState<string>("")
 
-    const debouncedSearch = useDebounce(searchTerm, 500)
+    const debouncedSearch = useDebounce(searchTerm, 350)
 
     useEffect(() => {
         getUsers(perPage)
@@ -45,32 +46,31 @@ export function UserTable(): JSX.Element {
         setUsers(sortByCountry ? sortUsersByCountry(filtered) : filtered)
     }, [debouncedSearch, sortByCountry, originalUsers])
 
-    const getUsers = async (results: number) => {
+    const getUsers = async (results: number): Promise<void> => {
         try {
             setLoading(true)
             setError(null)
-            
+
             const resp = await UserAPI.get(results)
             const data = resp?.results || []
 
             setUsers(sortByCountry ? sortUsersByCountry(data) : data)
             setOriginalUsers(data)
             setDeletedUsers([])
-        } catch (e) {
+        } catch {
             setError("No se pudo obtener los usuarios")
             message.error("Error al cargar usuarios")
-            console.error(e)
         } finally {
             setLoading(false)
         }
     }
 
-    const sortUsersByCountry = (data: User[]) =>
+    const sortUsersByCountry = (data: User[]): User[] =>
         [...data].sort((a, b) =>
             a.location.country.localeCompare(b.location.country)
         )
 
-    const handleTableChange = (p: TablePaginationConfig) => {
+    const handleTableChange = (p: TablePaginationConfig): void => {
         const { current, pageSize } = p
         setCurrentPage(current ?? 1)
 
@@ -79,7 +79,7 @@ export function UserTable(): JSX.Element {
         }
     }
 
-    const handleDeleteUser = (uuid: string) => {
+    const handleDeleteUser = (uuid: string): void => {
         const remaining = users.filter((u) => u.login.uuid !== uuid)
         const removed = users.find((u) => u.login.uuid === uuid)
 
@@ -91,7 +91,7 @@ export function UserTable(): JSX.Element {
         message.success("Usuario eliminado")
     }
 
-    const handleRestoreUsers = () => {
+    const handleRestoreUsers = (): void => {
         setUsers(originalUsers)
         setDeletedUsers([])
         message.success("Usuarios restaurados")
@@ -118,9 +118,8 @@ export function UserTable(): JSX.Element {
         {
             title: "Foto",
             dataIndex: "picture",
-            key: "picture",
             render: (pic: User["picture"]) => (
-                <img
+                <Image
                     src={pic.thumbnail}
                     alt="Foto"
                     width={40}
