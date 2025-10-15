@@ -185,7 +185,6 @@ export function UserTable(): JSX.Element {
                             current: currentPage,
                             pageSize: perPage,
                             total: users.length,
-                            showTotal: (t) => `Mostrando ${t} usuarios`,
                             pageSizeOptions: ['100'],
                         }}
                         loading={loading}
