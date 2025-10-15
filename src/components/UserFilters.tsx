@@ -3,6 +3,7 @@
 import { Space, Switch, Input, Button, Typography } from "antd"
 import { ReloadOutlined } from "@ant-design/icons"
 import { JSX } from "react"
+import { User } from "@/types/slices/randomType"
 
 const { Text } = Typography
 
@@ -10,7 +11,7 @@ interface Props {
   stripedRows: boolean
   sortByCountry: boolean
   searchTerm: string
-  deletedUsers: any[]
+  deletedUsers: User[]
   onToggleStriped: (checked: boolean) => void
   onToggleSort: (checked: boolean) => void
   onSearchChange: (term: string) => void

@@ -1,24 +1,48 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
+import globals from "globals";
+import tseslint from "@typescript-eslint/eslint-plugin";
+import parser from "@typescript-eslint/parser";
 import { FlatCompat } from "@eslint/eslintrc";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: import.meta.dirname,
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.extends("next/core-web-vitals"),
   {
-    ignores: [
-      "node_modules/**",
-      ".next/**",
-      "out/**",
-      "build/**",
-      "next-env.d.ts",
-    ],
+    ignores: ["**/.next/**", "node_modules", "dist", "build", "out"],
+  },
+  {
+    files: ["**/*.{ts,tsx,js,jsx}"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      parser,
+      parserOptions: {
+        sourceType: "module",
+        project: "./tsconfig.json",
+      },
+      globals: globals.browser,
+    },
+    plugins: {
+      "@typescript-eslint": tseslint,
+    },
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/explicit-function-return-type": [
+        "error",
+        { allowExpressions: true },
+      ],
+      "no-console": "warn",
+      eqeqeq: "error",
+      curly: "error",
+    },
   },
 ];
 
